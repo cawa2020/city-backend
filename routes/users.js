@@ -34,7 +34,7 @@ router.post('/register', async function (req, res) {
       }
     });
 
-    res.status(201).json({ user });
+    res.status(201).json({ ...user });
   } catch (error) {
     console.error('Детали ошибки:', {
       message: error.message,
@@ -50,12 +50,12 @@ router.post('/register', async function (req, res) {
 
 router.post('/login', async function (req, res) {
   try {
-    const { email, password } = req.body;
+    const { login, password } = req.body;
 
     // Поиск пользователя по email
     const user = await prisma.user.findUnique({
       where: {
-        email: email
+        login: login
       }
     });
 
@@ -73,7 +73,8 @@ router.post('/login', async function (req, res) {
       id: user.id,
       fullName: user.fullName,
       email: user.email,
-      login: user.login
+      login: user.login,
+      role: user.role
     });
   } catch (error) {
     console.error('Ошибка входа:', error);
