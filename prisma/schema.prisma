@@ -21,15 +21,17 @@ model User {
 }
 
 model Request {
-  id          Int      @id @default(autoincrement())
-  title       String
-  description String
-  status      String   @default("Новая")
-  category    String
-  photoUrl    String
-  date        DateTime @default(now())
-  userId      Int
-  user        User     @relation(fields: [userId], references: [id])
+  id            Int      @id @default(autoincrement())
+  title         String
+  description   String
+  status        String   @default("Новая")
+  category      String
+  photoUrl      String
+  photoUrlAfter String?
+  reason        String?
+  date          DateTime @default(now())
+  userId        Int
+  user          User     @relation(fields: [userId], references: [id])
 }
 
 model Category {
