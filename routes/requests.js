@@ -106,6 +106,32 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+router.patch('/:id', async (req, res) => {
+  try {
+    const requestId = parseInt(req.params.id);
+
+    // Проверяем существование категории
+    const existingRequest = await prisma.request.findUnique({
+      where: { id: requestId }
+    });
+
+    if (!existingRequest) {
+      return res.status(404).json({ error: 'Заявка не найдена' });
+    }
+
+    // Обновляем категорию
+    const updatedRequest = await prisma.request.update({
+      where: { id: requestId },
+      data: req.body,
+    });
+
+    res.json(updatedRequest);
+  } catch (error) {
+    console.error('Ошибка обновления заявки:', error);
+    res.status(500).json({ error: 'Ошибка при обновлении заявки' });
+  }
+});
+
 // Обновление статуса заявки
 router.patch('/:id/status', async (req, res) => {
   try {
